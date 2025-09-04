@@ -97,6 +97,7 @@ public class clsListaLinkedList {
 	}
 	
 	clsNode getTope(){return tope;}
+	
 	//Ejercicio Nº 3: Se desea determinar mediante un método denominado valorEnLista() si un valor determinado se encuentra en una lista
 	public void valorEnLista(int X) {
 		if(estaVacia()) {
@@ -146,6 +147,60 @@ public class clsListaLinkedList {
 			}
 		}
 	}
+	//Ejercicio N°6:
+    void mostrarDesastres() {
+        clsNode temp;
+        if (!estaVacia()) {
+            System.out.println("+-----------------+------------------+----------------------+");
+            System.out.println("| Fecha Desastre  | Número Víctimas  | Fecha Último Mayor   |");
+            System.out.println("+-----------------+------------------+----------------------+");
+
+            temp = this.tope;
+            while (temp != null) {
+                if (temp.getNodeInfo() instanceof desastre) {
+                    desastre d = (desastre) temp.getNodeInfo();
+                    System.out.printf("| %-15s | %-16d | %-20s |\n",
+                            d.getFechaDesastre(),
+                            d.getNumeroVictimas(),
+                            d.getFechaUltimoMayor());
+                }
+                temp = temp.getNextNode();
+            }
+            System.out.println("+-----------------+------------------+----------------------+");
+        } else {
+            System.out.println("Error muestra. Lista vacia");
+        }
+    }
+    public void completarFechas(){
+        if (estaVacia() || tope.getNextNode() == null) {
+            return;
+        }
+
+        clsNode actual = tope.getNextNode();
+
+        while (actual != null) {
+            if (actual.getNodeInfo() instanceof desastre) {
+                desastre desastreActual = (desastre) actual.getNodeInfo();
+                clsNode temp = tope;
+                desastre ultimoMayor = null;
+
+                while (temp != actual) {
+                    if (temp.getNodeInfo() instanceof desastre) {
+                        desastre desastreTemp = (desastre) temp.getNodeInfo();
+                        if (desastreTemp.getNumeroVictimas() > desastreActual.getNumeroVictimas()) {
+                            ultimoMayor = desastreTemp;
+                        }
+                    }
+                    temp = temp.getNextNode();
+                }
+
+                if (ultimoMayor != null) {
+                    desastreActual.setFechaUltimoMayor(ultimoMayor.getFechaDesastre());
+                }
+            }
+            actual = actual.getNextNode();
+        }
+    }
    
 	
 	
