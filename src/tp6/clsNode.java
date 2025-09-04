@@ -11,11 +11,14 @@ public class clsNode {
 		this.nodeInfo=nodeInfo;
 		this.nextNode=nextNode;
 	}
-	//hola wuacho la reconcha de la lora
+    clsNode(){
+
+    }
+
 	void setNodeInfo(Object nodeInfo){
 		this.nodeInfo=nodeInfo;
 	}
-	// wuacho lpm
+
 	void setNextNode(clsNode nextNode){
 		this.nextNode=nextNode;
 	}

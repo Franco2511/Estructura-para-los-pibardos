@@ -113,6 +113,8 @@ public class clsListaLinkedList {
 			}
 		}
 	}
+
+
 	//Ejercicio Nº 4: Proponga un metodo que permita desplazar X posiciones a la derecha o izquierda en una lista. 
 	public void rotar(int cant,String direccion) {
 		if(estaVacia()) {
@@ -146,7 +148,79 @@ public class clsListaLinkedList {
 			}
 		}
 	}
-   
-	
-	
+   //EJercicio 5)a)
+   public int mayor() {
+       if (estaVacia()) {
+           throw new IllegalStateException("Error mayor. Lista vacia");
+       }
+       clsNode temp = this.tope;
+       int mayor = ((Integer) temp.getNodeInfo()).intValue();
+       temp = temp.getNextNode();
+       while (temp != null) {
+           int valor = ((Integer) temp.getNodeInfo()).intValue();
+           if (valor > mayor) {
+               mayor = valor;
+           }
+           temp = temp.getNextNode();
+       }
+       return mayor;
+   }
+    public int menor() {
+        if (estaVacia()) {
+            throw new IllegalStateException("Error menor. Lista vacia");
+        }
+        clsNode temp = this.tope;
+        int menor = ((Integer) temp.getNodeInfo()).intValue();
+        temp = temp.getNextNode();
+        while (temp != null) {
+            int valor = ((Integer) temp.getNodeInfo()).intValue();
+            if (valor < menor) {
+                menor = valor;
+            }
+            temp = temp.getNextNode();
+        }
+        return menor;
+    }
+    public void completarFechas() {
+        clsPila pila = new clsPila();
+        clsNode actual = this.tope;
+
+        while (actual != null) {
+            Object info = actual.getNodeInfo();
+
+            // Seguridad: validar que el nodeInfo sea del tipo esperado
+            if (!(info instanceof registroDesastres)) {
+                System.out.println("Error: nodeInfo no es DisasterRecord. Asegurate de usar DisasterRecord en todos los nodos.");
+                return;
+            }
+
+            registroDesastres drActual = (registroDesastres) info;
+
+            // Sacar de la pila los nodos con victimas <= victimas_actual
+            while (!pila.estaVacia()) {
+                Object infoTop = pila.verTope().getNodeInfo();
+                registroDesastres drTop = (registroDesastres) infoTop;
+                if (drTop.getVictimas() <= drActual.getVictimas()) {
+                    pila.eliminarEl();
+                } else {
+                    break;
+                }
+            }
+
+            // Si la pila no está vacía, el tope es el último anterior con más víctimas
+            if (!pila.estaVacia()) {
+                registroDesastres drTop = (registroDesastres) pila.verTope().getNodeInfo();
+                drActual.setFechaUltimoMayor(drTop.getFecha());
+            } else {
+                drActual.setFechaUltimoMayor(null);
+            }
+
+            // Apilar el nodo actual y avanzar
+            pila.insertar(actual);
+            actual = actual.getNextNode();
+        }
+    }
+
+
+
 }
