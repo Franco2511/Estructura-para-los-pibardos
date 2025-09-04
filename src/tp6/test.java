@@ -15,5 +15,8 @@ public class test {
 		lista.valorEnLista(40);
 		lista.rotar(1, "d");
 		lista.muestra();
+		
+		System.out.println("HOLAAAAAAAAAAAAAAAAAA");
 	}
+	
 }
