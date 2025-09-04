@@ -82,6 +82,30 @@ public class clsListaLinkedList {
 			System.out.println("Error muestra. Lista vacia");
 		}
 	}
+    void mostrarDesastres() {
+        clsNode temp;
+        if (!estaVacia()) {
+            System.out.println("+-----------------+------------------+----------------------+");
+            System.out.println("| Fecha Desastre  | Número Víctimas  | Fecha Último Mayor   |");
+            System.out.println("+-----------------+------------------+----------------------+");
+
+            temp = this.tope;
+            while (temp != null) {
+                if (temp.getNodeInfo() instanceof desastre) {
+                    desastre d = (desastre) temp.getNodeInfo();
+                    System.out.printf("| %-15s | %-16d | %-20s |\n",
+                            d.getFechaDesastre(),
+                            d.getNumeroVictimas(),
+                            d.getFechaUltimoMayor());
+                }
+                temp = temp.getNextNode();
+            }
+            System.out.println("+-----------------+------------------+----------------------+");
+        } else {
+            System.out.println("Error muestra. Lista vacia");
+        }
+    }
+
 	public int longitud () {
 		clsNode temp;
 		int x = 0;
@@ -181,27 +205,35 @@ public class clsListaLinkedList {
         }
         return menor;
     }
-
+// punto 6
     public void completarFechas(){
-        if(estaVacia() || this.tope.getNextNode() == null){
+        if (estaVacia() || tope.getNextNode() == null) {
             return;
         }
 
-        clsNode actual = this.tope.getNextNode();
-        while(actual != null){
-            clsNode temp = tope;  // Empezar desde el inicio
-            clsNode ultimoMayor = null;
+        clsNode actual = tope.getNextNode();
 
-            // Recorrer desde el inicio hasta el nodo actual
-            while (temp != actual) {
-                desastre desastreTemp = (desastre)  temp.getNodeInfo();
+        while (actual != null) {
+            if (actual.getNodeInfo() instanceof desastre) {
                 desastre desastreActual = (desastre) actual.getNodeInfo();
+                clsNode temp = tope;
+                desastre ultimoMayor = null;
 
-                if (desastreTemp.getNumeroVictimas() > desastreActual.getNumeroVictimas()) {
-                    ultimoMayor = temp;  // Guardar el último que cumple
+                while (temp != actual) {
+                    if (temp.getNodeInfo() instanceof desastre) {
+                        desastre desastreTemp = (desastre) temp.getNodeInfo();
+                        if (desastreTemp.getNumeroVictimas() > desastreActual.getNumeroVictimas()) {
+                            ultimoMayor = desastreTemp;
+                        }
+                    }
+                    temp = temp.getNextNode();
                 }
-                temp = temp.getNextNode();
+
+                if (ultimoMayor != null) {
+                    desastreActual.setFechaUltimoMayor(ultimoMayor.getFechaDesastre());
+                }
             }
+            actual = actual.getNextNode();
         }
     }
 
