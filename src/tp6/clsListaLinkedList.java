@@ -2,30 +2,30 @@ package tp6;
 
 public class clsListaLinkedList {
 	private clsNode tope, lista;
-	
+
 	clsListaLinkedList(){
 		limpiaLista();
 	}
-	
+
 	boolean estaVacia(){
 		return (lista==null);
 	}
-	
+
 
 	void limpiaLista(){
 		this.tope=this.lista=null;;
 	}
-	
-	
+
+
 	// inserta elemento a la derecha
 	void insertaFin(Object objElemento){
 		if (!estaVacia()){
 			this.lista.setNextNode(new clsNode(objElemento));
 			this.lista=this.lista.getNextNode();
 		}else{
-			this.tope = this.lista=new clsNode(objElemento);			
+			this.tope = this.lista=new clsNode(objElemento);
 		}
-	}	
+	}
 
 	// elimina elemento ubicado m�s a la derecha
 	void eliminaFin(){
@@ -37,24 +37,24 @@ public class clsListaLinkedList {
 				clsNode temp;
 				for (temp=this.tope;temp.getNextNode()!=lista;temp=temp.getNextNode());
 				this.lista=temp;
-				this.lista.setNextNode(null);			
+				this.lista.setNextNode(null);
 			}
 		}else{
-			System.out.println("Error eliminaFin. Lista vacia");			
+			System.out.println("Error eliminaFin. Lista vacia");
 		}
-	}		
+	}
 
-	
+
 	// inserta elemento a la izq
 	void insertaTope(Object objElemento){
 		if (!estaVacia()){
-			this.tope = new clsNode(objElemento,this.tope);		
+			this.tope = new clsNode(objElemento,this.tope);
 		}else{
-			this.tope = this.lista=new clsNode(objElemento);			
+			this.tope = this.lista=new clsNode(objElemento);
 		}
-	}	
+	}
 
-	
+
 	// elimina elemento ubicado m�s a la izq
 	void eliminaTope(){
 		if (!estaVacia()){
@@ -62,25 +62,25 @@ public class clsListaLinkedList {
 				// un solo elemento
 				limpiaLista();
 			}else{
-				this.tope=this.tope.getNextNode();			
+				this.tope=this.tope.getNextNode();
 			}
 		}else{
-			System.out.println("Error eliminaTope. Lista vacia");			
+			System.out.println("Error eliminaTope. Lista vacia");
 		}
-	}	
-	
-	
+	}
+
+
 	void muestra(){
-		clsNode temp;		
+		clsNode temp;
 		if (!estaVacia()){
 			temp=this.tope;
 			while (temp!=null){
 				System.out.println("Elemento " + temp.getNodeInfo().toString());
 				temp=temp.getNextNode();
-			}			
+			}
 		}else{
 			System.out.println("Error muestra. Lista vacia");
-		}		
+		}
 	}
 	public int longitud () {
 		clsNode temp;
@@ -95,7 +95,7 @@ public class clsListaLinkedList {
 		}
 		return x;
 	}
-	
+
 	clsNode getTope(){return tope;}
 	//Ejercicio Nº 3: Se desea determinar mediante un método denominado valorEnLista() si un valor determinado se encuentra en una lista
 	public void valorEnLista(int X) {
@@ -115,7 +115,7 @@ public class clsListaLinkedList {
 	}
 
 
-	//Ejercicio Nº 4: Proponga un metodo que permita desplazar X posiciones a la derecha o izquierda en una lista. 
+	//Ejercicio Nº 4: Proponga un metodo que permita desplazar X posiciones a la derecha o izquierda en una lista.
 	public void rotar(int cant,String direccion) {
 		if(estaVacia()) {
 			return;
@@ -181,46 +181,29 @@ public class clsListaLinkedList {
         }
         return menor;
     }
-    public void completarFechas() {
-        clsPila pila = new clsPila();
-        clsNode actual = this.tope;
 
-        while (actual != null) {
-            Object info = actual.getNodeInfo();
+    public void completarFechas(){
+        if(estaVacia() || this.tope.getNextNode() == null){
+            return;
+        }
 
-            // Seguridad: validar que el nodeInfo sea del tipo esperado
-            if (!(info instanceof registroDesastres)) {
-                System.out.println("Error: nodeInfo no es DisasterRecord. Asegurate de usar DisasterRecord en todos los nodos.");
-                return;
-            }
+        clsNode actual = this.tope.getNextNode();
+        while(actual != null){
+            clsNode temp = tope;  // Empezar desde el inicio
+            clsNode ultimoMayor = null;
 
-            registroDesastres drActual = (registroDesastres) info;
+            // Recorrer desde el inicio hasta el nodo actual
+            while (temp != actual) {
+                desastre desastreTemp = (desastre)  temp.getNodeInfo();
+                desastre desastreActual = (desastre) actual.getNodeInfo();
 
-            // Sacar de la pila los nodos con victimas <= victimas_actual
-            while (!pila.estaVacia()) {
-                Object infoTop = pila.verTope().getNodeInfo();
-                registroDesastres drTop = (registroDesastres) infoTop;
-                if (drTop.getVictimas() <= drActual.getVictimas()) {
-                    pila.eliminarEl();
-                } else {
-                    break;
+                if (desastreTemp.getNumeroVictimas() > desastreActual.getNumeroVictimas()) {
+                    ultimoMayor = temp;  // Guardar el último que cumple
                 }
+                temp = temp.getNextNode();
             }
-
-            // Si la pila no está vacía, el tope es el último anterior con más víctimas
-            if (!pila.estaVacia()) {
-                registroDesastres drTop = (registroDesastres) pila.verTope().getNodeInfo();
-                drActual.setFechaUltimoMayor(drTop.getFecha());
-            } else {
-                drActual.setFechaUltimoMayor(null);
-            }
-
-            // Apilar el nodo actual y avanzar
-            pila.insertar(actual);
-            actual = actual.getNextNode();
         }
     }
-
 
 
 }
