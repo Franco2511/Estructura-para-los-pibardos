@@ -11,7 +11,7 @@ public class clsNode {
 		this.nodeInfo=nodeInfo;
 		this.nextNode=nextNode;
 	}
-	
+	//hola wuacho la reconcha de la lora
 	void setNodeInfo(Object nodeInfo){
 		this.nodeInfo=nodeInfo;
 	}
