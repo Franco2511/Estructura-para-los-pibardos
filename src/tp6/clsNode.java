@@ -15,7 +15,7 @@ public class clsNode {
 	void setNodeInfo(Object nodeInfo){
 		this.nodeInfo=nodeInfo;
 	}
-	
+	// wuacho lpm
 	void setNextNode(clsNode nextNode){
 		this.nextNode=nextNode;
 	}
