@@ -15,7 +15,11 @@ public class clsListaLinkedList {
 	void limpiaLista(){
 		this.tope=this.lista=null;;
 	}
-
+    public Object obtenerPrimero(){
+        Object a = tope.getNodeInfo();
+        eliminaTope();
+        return a;
+    }
 
 	// inserta elemento a la derecha
 	void insertaFin(Object objElemento){
